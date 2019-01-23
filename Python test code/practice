@@ -17,7 +17,7 @@ quantityLabel = Label(root, text="Total")
 entry1Label.grid(row = 1, column = 0 , sticky = W)
 entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
 salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 1)
-quantityLabel.grid(row = 2, column = 7 , sticky = W, columnspan = 1)
+quantityLabel.grid(row = 2, column = 8 , sticky = W, columnspan = 1)
 
 button1 = Button(root,text = 'Save', fg='green')
 button2 = Button(root,text = 'Send', fg='red')
@@ -56,20 +56,20 @@ def func(event):
         scanIn.append(content)
 
         for i in scanIn:
-            label = Label(root, text=i)
-            label.grid_forget()
+            inLabel = Label(root, text=i)
             inCount += 1
-        label.grid(sticky=W, column=0)
+            inLabel.grid_forget()
+        inLabel.grid(sticky=W, column=0)
 
         for i in scanOut:
-            label = Label(root, text=i)
-            label.grid_forget()
+            outLabel = Label(root, text=i)
+            outLabel.grid_forget()
             outCount += 1
-        label.grid(sticky=W, column=5)
+            outLabel.grid(sticky=W,row=3, column=5)
 
     entry1.delete(0, 'end')
     totalLabel = Label(root, text=Counter(scanIn))
-    totalLabel.grid(row= 3, column = 7)
+    totalLabel.grid(row= 3, column = 8)
 
     print(Counter(scanIn))
     print(Counter(scanOut))
