@@ -1,0 +1,77 @@
+from tkinter import *
+import datetime
+import xlwt
+
+now = datetime.datetime.now()
+root = Tk()
+root.title("Programa de Entrada")
+root.geometry("300x500")
+
+
+entradaLabel = Label(root, text="Entrada")
+salidaLabel = Label(root, text="Salida")
+entry1Label = Label(root, text="Scan Package:")
+
+entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 2)
+salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 2)
+entry1Label.grid(row = 1, column = 0 , sticky = W)
+
+button1 = Button(root,text = 'Save', fg='green')
+button2 = Button(root,text = 'Send', fg='red')
+
+#button1.grid(row=3,column=0)
+#button2.grid(row = 3 , column = 1)
+
+entry1 = Entry(root)
+entry1.grid(row = 1,column = 1,columnspan = 5)
+entry1.focus_set()
+
+quitButton = Button(root,text="Quit", command = root.quit )
+#quitButton.grid(row=1,column=12)
+
+select = Label(root,text="Scan mode:",)
+select.grid(row=0,columnspan = 2, sticky = W)
+
+scanIn = []
+scanOut = []
+startRow = 3
+inCount=0
+outCount=0
+
+
+def func(event):
+
+    global inCount
+    global outCount
+    content = entry1.get()
+
+    if content == "":
+        print("No Package Scanned")
+
+    else:
+        print( "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M"))
+        scanIn.append(content)
+        print(scanIn)
+
+        for i in scanIn:
+            label = Label(root, text=i)
+            label.grid_forget()
+            inCount += 1
+        label.grid(sticky=W, column=0)
+
+        for i in scanOut:
+            label = Label(root, text=i)
+            label.grid_forget()
+            outCount += 1
+        label.grid(sticky=W, column=5)
+
+    entry1.delete(0, 'end')
+
+
+
+
+root.bind('<Return>', func)
+
+
+
+root.mainloop()

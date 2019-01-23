@@ -3,7 +3,7 @@ from tkinter import ttk
 import webbrowser
 
 root = Tk()
-logo = PhotoImage(file = 'I:/Projects\Mobile Repair Techs/MRT Media/Mobile repair tech logo files/final_vector_logo.gif')
+logo = PhotoImage(file = 'C:\github\Frontend\Images\BG\OOF-desk.png')
 
 
 #Hero Rule

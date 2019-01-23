@@ -1,0 +1,49 @@
+from tkinter import *
+
+class className :
+    def createName(self,name):
+        self.name = name
+    def displayName(self):
+        return self.name
+    def saying(self):
+        print ("Hello " + self.name)
+
+className
+first=className()
+second=className()
+first.createName("Tony")
+#print(first.displayName())
+print(first.saying())
+
+
+
+
+class RayFunc:
+    def __init__(self,master):
+        frame= Frame(master)
+        frame.pack()
+
+        self.printbutton=Button(frame, text="test message", command=self.printMessage)
+        self.printbutton.pack(side=LEFT)
+
+        self.quitbutton = Button(frame, text="Quit", command=frame.quit)
+        self.quitbutton.pack(side=LEFT)
+
+    def createButton(self,test,command):
+        self.newButton = Button(root,text=test,command=command)
+        self.test=test
+        self.command=command
+        self.newButton.pack(side=LEFT)
+
+    def printMessage(self):
+        print("Package" +"" + "shipped at " +"")
+        print(self.text)
+
+
+root=Tk()
+b = RayFunc(root)
+b.createButton("Save","")
+b.createButton("Ship","")
+b.createButton("Quit",root.quit)
+
+root.mainloop()
