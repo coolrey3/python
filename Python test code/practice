@@ -6,7 +6,7 @@ import xlwt
 now = datetime.datetime.now()
 root = Tk()
 root.title("Programa de Entrada")
-root.geometry("300x500")
+root.geometry("500x500")
 
 
 entry1Label = Label(root, text="Scan Package:")
@@ -72,7 +72,8 @@ def func(event):
     totalLabel.grid(row= 3, column = 8)
 
     print(Counter(scanIn))
-    print(Counter(scanOut))
+    outCounter = (Counter(scanOut))
+    print(outCounter)
 
 
 
