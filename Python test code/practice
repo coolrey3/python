@@ -22,14 +22,17 @@ entradaLabel = Label(root, text="Entrada")
 salidaLabel = Label(root, text="Salida")
 quantityLabel = Label(root, text="Total")
 
+#Entry Label
 entry1Label.grid(row = 1, column = 0 , sticky = W)
 entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
-salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 1)
-quantityLabel.grid(row = 2, column = 7 , sticky = W, columnspan = 1)
 
+#Salida Label
+salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 1)
+quantityLabel.grid(row = 2, column = 7 , sticky = E, columnspan = 1)
+
+#save and send buttons
 button1 = Button(root,text = 'Save', fg='green')
 button2 = Button(root,text = 'Send', fg='red')
-
 #button1.grid(row=3,column=0)
 #button2.grid(row = 3 , column = 1)
 
@@ -57,6 +60,7 @@ menu.add_cascade(label="Scan Mode", menu=subMenu)
 
 
 def entradaMode():
+    global mode
     print("Entrada Selected")
     mode = "Entrada"
     select = Label(root, text=" Scan mode:   " + mode, fg='green',width = 17)
@@ -64,6 +68,7 @@ def entradaMode():
 
 def salidaMode():
     print("Salida Selected")
+    global mode
     mode = "Salida"
     select = Label(root, text="Scan mode: " + mode, fg='red',width = 17)
     select.grid(row=0, columnspan=2, sticky=W)
@@ -86,8 +91,9 @@ def func(event):
 
     if content == "":
         print("No Package Scanned")
+        print(mode)
 
-    else:
+    elif mode == "Entrada":
         print( "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M"))
         scanIn.append(content)
 
@@ -104,7 +110,7 @@ def func(event):
         for value, count in inCounter:
             stored = value,count
             counterLabel = Label(root, text = stored, width = 11)
-            counterLabel.grid(column=7,row = startRow, sticky = E)
+            counterLabel.grid(column=7,columnspan =  3,row = startRow, sticky = E)
             startRow = startRow + 1
 
             #counterLabel.grid_forget()
@@ -115,8 +121,12 @@ def func(event):
             outLabel.grid_forget()
             outCount += 1
             outLabel.grid(sticky=W,row=3, column=5)
+        entry1.delete(0, 'end')
 
-    entry1.delete(0, 'end')
+
+    else:
+
+     entry1.delete(0, 'end')
 
 
     #inCounter = Counter(scanIn)
