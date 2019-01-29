@@ -3,6 +3,7 @@ from collections import Counter
 import datetime
 import xlwt
 
+
 now = datetime.datetime.now()
 root = Tk()
 root.title("Programa de Entrada")
@@ -17,7 +18,7 @@ quantityLabel = Label(root, text="Total")
 entry1Label.grid(row = 1, column = 0 , sticky = W)
 entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
 salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 1)
-quantityLabel.grid(row = 2, column = 8 , sticky = W, columnspan = 1)
+quantityLabel.grid(row = 2, column = 7 , sticky = E, columnspan = 3)
 
 button1 = Button(root,text = 'Save', fg='green')
 button2 = Button(root,text = 'Send', fg='red')
@@ -32,8 +33,7 @@ entry1.focus_set()
 quitButton = Button(root,text="Quit", command = root.quit )
 #quitButton.grid(row=1,column=12)
 
-select = Label(root,text="Scan mode:",)
-select.grid(row=0,columnspan = 2, sticky = W)
+
 
 scanIn = []
 scanOut = []
@@ -41,12 +41,40 @@ startRow = 3
 inCount=0
 outCount=0
 
+menu = Menu(root)
+root.config(menu=menu)
+subMenu = Menu(menu)
+menu.add_cascade(label="Scan Mode", menu=subMenu)
+
+
+def salidaMode():
+    print("Salida?!")
+    mode = "Salida"
+    select = Label(root, text="Scan mode: " + mode, fg='red',bg ='white')
+    select.grid(row=0, columnspan=2, sticky=W)
+
+
+def entradaMode():
+    print("Entrada?!")
+    mode = "Entrada"
+    select = Label(root, text="Scan mode:   " + mode, fg='green',bg ='white')
+    select.grid(row=0, columnspan=2, sticky=W)
+
+
+subMenu.add_command(label="Entrada", command=entradaMode)
+subMenu.add_command(label="Salida", command=salidaMode)
+mode = ""
+
+
+subMenu.add_separator()
 
 def func(event):
+
 
     global inCount
     global outCount
     content = entry1.get()
+
 
     if content == "":
         print("No Package Scanned")
@@ -60,6 +88,12 @@ def func(event):
             inCount += 1
             inLabel.grid_forget()
         inLabel.grid(sticky=W, column=0)
+        inCounter = Counter(scanIn)
+        inCounter = inCounter.most_common()
+
+        for value, count in inCounter:
+            stored = value,count
+            print(stored)
 
         for i in scanOut:
             outLabel = Label(root, text=i)
@@ -68,12 +102,19 @@ def func(event):
             outLabel.grid(sticky=W,row=3, column=5)
 
     entry1.delete(0, 'end')
-    totalLabel = Label(root, text=Counter(scanIn))
-    totalLabel.grid(row= 3, column = 8)
 
-    print(Counter(scanIn))
+
+    inCounter = Counter(scanIn)
+    inCounter = inCounter.most_common()
+ #   for value, count in inCounter:
+
+  #       print(value, count)
+
+
+    totalInLabel = Label(root, text=inCounter)
+    totalInLabel.grid(row= 3, column = 8)
+
     outCounter = (Counter(scanOut))
-    print(outCounter)
 
 
 
