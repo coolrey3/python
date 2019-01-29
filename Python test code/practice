@@ -126,7 +126,12 @@ def func(event):
 
     else:
 
-     entry1.delete(0, 'end')
+        entry1.delete(0, 'end')
+        outCounter = (Counter(scanOut))
+        print(outCounter)
+
+
+
 
 
     #inCounter = Counter(scanIn)
@@ -138,10 +143,6 @@ def func(event):
 
    # totalInLabel = Label(root, text=inCounter)
   #  totalInLabel.grid(row= 3, column = 8)
-
-    outCounter = (Counter(scanOut))
-
-
 
 entradaMode()
 root.bind('<Return>', func)
