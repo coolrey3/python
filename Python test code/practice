@@ -27,8 +27,8 @@ entry1Label.grid(row = 1, column = 0 , sticky = W)
 entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
 
 #Salida Label
-salidaLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 1)
-quantityLabel.grid(row = 2, column = 7 , sticky = E, columnspan = 1)
+salidaLabel.grid(row = 2, column = 8 , sticky = E, columnspan = 2)
+quantityLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 2)
 
 #save and send buttons
 button1 = Button(root,text = 'Save', fg='green')
@@ -108,23 +108,26 @@ def func(event):
 
         startRow = 3
         for value, count in inCounter:
-            stored = value,count
-            counterLabel = Label(root, text = stored, width = 11)
-            counterLabel.grid(column=7,columnspan =  3,row = startRow, sticky = E)
+            stored = value, "-" ,count
+            counterLabel = Label(root, text = stored, width = 13)
+            counterLabel.grid(column=5,columnspan =  3,row = startRow, sticky = E)
             startRow = startRow + 1
-
-            #counterLabel.grid_forget()
             print(stored)
+
+        entry1.delete(0, 'end')
+
+
+
+
+
+    else:
 
         for i in scanOut:
             outLabel = Label(root, text=i)
             outLabel.grid_forget()
             outCount += 1
-            outLabel.grid(sticky=W,row=3, column=5)
-        entry1.delete(0, 'end')
-
-
-    else:
+            outLabel.grid(sticky=W,row=3, column=7)
+            entry1.delete(0, 'end')
 
         entry1.delete(0, 'end')
         outCounter = (Counter(scanOut))
