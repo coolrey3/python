@@ -17,18 +17,26 @@ root.title("Programa de Entrada")
 root.geometry("500x500")
 
 
-entry1Label = Label(root, text="Scan Package:")
+#Entrada Label
 entradaLabel = Label(root, text="Entrada")
-salidaLabel = Label(root, text="Salida")
-quantityLabel = Label(root, text="Total")
-
-#Entry Label
-entry1Label.grid(row = 1, column = 0 , sticky = W)
 entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
 
+#Total in Label
+quantityLabel = Label(root, text="Total In")
+quantityLabel.grid(row = 2, column = 2 , sticky = W, columnspan = 1)
+
+#Total Out Label
+quantityOutLabel = Label(root, text="Total Out")
+quantityOutLabel.grid(row = 2, column = 9 , sticky = W, columnspan = 1)
+
+#Entry Label
+entry1Label = Label(root, text="Scan Package:")
+entry1Label.grid(row = 1, column = 0 , sticky = W)
+
 #Salida Label
-salidaLabel.grid(row = 2, column = 8 , sticky = E, columnspan = 2)
-quantityLabel.grid(row = 2, column = 5 , sticky = W, columnspan = 2)
+salidaLabel = Label(root, text="Salida")
+salidaLabel.grid(row = 2, column = 7 , sticky = E, columnspan = 1)
+
 
 #save and send buttons
 button1 = Button(root,text = 'Save', fg='green')
@@ -36,6 +44,7 @@ button2 = Button(root,text = 'Send', fg='red')
 #button1.grid(row=3,column=0)
 #button2.grid(row = 3 , column = 1)
 
+#Scanner Entry Field
 entry1 = Entry(root)
 entry1.grid(row = 1,column = 1,columnspan = 5)
 entry1.focus_set()
@@ -97,41 +106,60 @@ def func(event):
         print( "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M"))
         scanIn.append(content)
 
+        startRowIn = 2
         for i in scanIn:
             inLabel = Label(root, text=i)
             inCount += 1
             inLabel.grid_forget()
+            startRowIn = startRowIn + 1
 
-        inLabel.grid(sticky=W, column=0)
+
+
+        inLabel.grid(sticky=W, column=0,row=startRowIn)
         inCounter = Counter(scanIn)
         inCounter = inCounter.most_common()
 
         startRow = 3
         for value, count in inCounter:
             stored = value, "-" ,count
-            counterLabel = Label(root, text = stored, width = 13)
-            counterLabel.grid(column=5,columnspan =  3,row = startRow, sticky = E)
+            counterLabel = Label(root, text = stored)
+            counterLabel.grid(column=2,columnspan = 1,row = startRow, sticky = W)
             startRow = startRow + 1
             print(stored)
 
         entry1.delete(0, 'end')
 
-
-
-
-
     else:
+        print( "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M"))
+        scanOut.append(content)
 
+        startRowOut = 2
         for i in scanOut:
             outLabel = Label(root, text=i)
             outLabel.grid_forget()
             outCount += 1
-            outLabel.grid(sticky=W,row=3, column=7)
-            entry1.delete(0, 'end')
+            startRowOut = startRowOut + 1
+
+        outLabel.grid(sticky=W, column=7,row=startRowOut)
+        entry1.delete(0, 'end')
+
+
+
+        outCounter = (Counter(scanOut))
+        outCounter = outCounter.most_common()
+
+        startRow = 3
+        for value, count in outCounter:
+            stored = value, "-", count
+            counterOutLabel = Label(root, text=stored)
+            counterOutLabel.grid(column=9, columnspan=1, row=startRow, sticky=W)
+            startRow = startRow + 1
+            print(stored)
+
+        print(outCounter)
+
 
         entry1.delete(0, 'end')
-        outCounter = (Counter(scanOut))
-        print(outCounter)
 
 
 
