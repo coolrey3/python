@@ -1,6 +1,6 @@
 
 
-#import moduoles
+#import modules
 from tkinter import *
 from collections import Counter
 import datetime
@@ -26,16 +26,16 @@ quantityLabel = Label(root, text="Total In")
 quantityLabel.grid(row = 2, column = 2 , sticky = W, columnspan = 1)
 
 #Total Out Label
-quantityOutLabel = Label(root, text="Total Out")
+quantityOutLabel = Label(root, text="Total Out",width=15)
 quantityOutLabel.grid(row = 2, column = 9 , sticky = W, columnspan = 1)
 
-#Entry Label
+#Instructions to scan Label
 entry1Label = Label(root, text="Scan Package:")
-entry1Label.grid(row = 1, column = 0 , sticky = W)
+entry1Label.grid(row = 0, column = 0 , sticky = W)
 
 #Salida Label
-salidaLabel = Label(root, text="Salida")
-salidaLabel.grid(row = 2, column = 7 , sticky = E, columnspan = 1)
+salidaLabel = Label(root, text="Salida",width=15)
+salidaLabel.grid(row = 2, column = 7 , sticky = W, columnspan = 1)
 
 
 #save and send buttons
@@ -46,7 +46,7 @@ button2 = Button(root,text = 'Send', fg='red')
 
 #Scanner Entry Field
 entry1 = Entry(root)
-entry1.grid(row = 1,column = 1,columnspan = 5)
+entry1.grid(row = 0,column = 2,columnspan = 5)
 entry1.focus_set()
 
 quitButton = Button(root,text="Quit", command = root.quit )
@@ -54,20 +54,21 @@ quitButton = Button(root,text="Quit", command = root.quit )
 
 
 
+#Define Variables and Arrays
 scanIn = []
 scanOut = []
 startRow = 3
 inCount=0
 outCount=0
 
+
+#Menu Taskbar
 menu = Menu(root)
 root.config(menu=menu)
 subMenu = Menu(menu)
 menu.add_cascade(label="Scan Mode", menu=subMenu)
 
-
-
-
+#Menu Taskbar Commands
 def entradaMode():
     global mode
     print("Entrada Selected")
@@ -135,7 +136,7 @@ def func(event):
 
         startRowOut = 2
         for i in scanOut:
-            outLabel = Label(root, text=i)
+            outLabel = Label(root, text=i,width=15)
             outLabel.grid_forget()
             outCount += 1
             startRowOut = startRowOut + 1
@@ -151,7 +152,7 @@ def func(event):
         startRow = 3
         for value, count in outCounter:
             stored = value, "-", count
-            counterOutLabel = Label(root, text=stored)
+            counterOutLabel = Label(root, text=stored,width=15)
             counterOutLabel.grid(column=9, columnspan=1, row=startRow, sticky=W)
             startRow = startRow + 1
             print(stored)
