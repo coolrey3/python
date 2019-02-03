@@ -14,28 +14,28 @@ root = Tk()
 #tkinter window title
 root.title("Programa de Entrada")
 #tkinter window size
-root.geometry("500x500")
+root.geometry("550x500")
 
 
 #Entrada Label
 entradaLabel = Label(root, text="Entrada")
-entradaLabel.grid(row = 2, column = 0, sticky = W,columnspan = 1)
+entradaLabel.grid(row = 2, column = 0, sticky = NSEW,columnspan = 1)
 
 #Total in Label
 quantityLabel = Label(root, text="Total In")
-quantityLabel.grid(row = 2, column = 2 , sticky = W, columnspan = 1)
+quantityLabel.grid(row = 2, column = 2 , sticky = NSEW, columnspan = 1)
 
 #Total Out Label
 quantityOutLabel = Label(root, text="Total Out",width=15)
-quantityOutLabel.grid(row = 2, column = 9 , sticky = W, columnspan = 1)
+quantityOutLabel.grid(row = 2, column = 9 , sticky = NSEW, columnspan = 1)
 
 #Instructions to scan Label
 entry1Label = Label(root, text="Scan Package:")
-entry1Label.grid(row = 0, column = 0 , sticky = W)
+entry1Label.grid(row = 0, column = 0 , sticky = NSEW)
 
 #Salida Label
 salidaLabel = Label(root, text="Salida",width=15)
-salidaLabel.grid(row = 2, column = 7 , sticky = W, columnspan = 1)
+salidaLabel.grid(row = 2, column = 7 , sticky = NSEW, columnspan = 1)
 
 
 #save and send buttons
@@ -46,7 +46,7 @@ button2 = Button(root,text = 'Send', fg='red')
 
 #Scanner Entry Field
 entry1 = Entry(root)
-entry1.grid(row = 0,column = 2,columnspan = 5)
+entry1.grid(row = 0,column = 2,columnspan = 3)
 entry1.focus_set()
 
 quitButton = Button(root,text="Quit", command = root.quit )
@@ -66,26 +66,54 @@ outCount=0
 menu = Menu(root)
 root.config(menu=menu)
 subMenu = Menu(menu)
+fileMenu = Menu(menu)
+menu.add_cascade(label="File", menu=fileMenu)
 menu.add_cascade(label="Scan Mode", menu=subMenu)
 
+
 #Menu Taskbar Commands
+
+def file_save():
+    f = tkFileDialog.asksaveasfile(mode='w', defaultextension=".txt")
+    if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+        return
+    text2save = str(text.get(1.0, END)) # starts from `1.0`, not `0.0`
+    f.write(text2save)
+    f.close() # `()` was missing.
+
+
 def entradaMode():
     global mode
     print("Entrada Selected")
     mode = "Entrada"
     select = Label(root, text=" Scan mode:   " + mode, fg='green',width = 17)
-    select.grid(row=0, columnspan=2, sticky=W)
+    select.grid(row=0, columnspan=2, sticky=NSEW)
 
 def salidaMode():
     print("Salida Selected")
     global mode
+    global furgonLabel
     mode = "Salida"
     select = Label(root, text="Scan mode: " + mode, fg='red',width = 17)
-    select.grid(row=0, columnspan=2, sticky=W)
+    select.grid(row=0, columnspan=2, sticky=NSEW)
+
+    # Furgon Entry Field
+    furgonLabel = Label(root, text="Furgon: ")
+    furgonLabel.grid(row=0, column= 8, sticky=E,columnspan=1)
+    furgon = Entry(root)
+    furgon.grid(row=0, column=9, columnspan=1,sticky=E)
+    #
+cursor = root.focus_get
+print(cursor)
 
 
 subMenu.add_command(label="Entrada", command=entradaMode)
 subMenu.add_command(label="Salida", command=salidaMode)
+
+fileMenu.add_command(label="Save As",command = file_save)
+fileMenu.add_command(label="Exit", command=root.quit)
+
+
 mode = ""
 
 
@@ -116,7 +144,8 @@ def func(event):
 
 
 
-        inLabel.grid(sticky=W, column=0,row=startRowIn)
+        inLabel.grid(sticky=NSEW, column=0,row=startRowIn)
+        global inCounter
         inCounter = Counter(scanIn)
         inCounter = inCounter.most_common()
 
@@ -124,7 +153,7 @@ def func(event):
         for value, count in inCounter:
             stored = value, "-" ,count
             counterLabel = Label(root, text = stored)
-            counterLabel.grid(column=2,columnspan = 1,row = startRow, sticky = W)
+            counterLabel.grid(column=2,columnspan = 1,row = startRow, sticky = NSEW)
             startRow = startRow + 1
             print(stored)
 
@@ -142,6 +171,7 @@ def func(event):
             startRowOut = startRowOut + 1
 
         outLabel.grid(sticky=W, column=7,row=startRowOut)
+
         entry1.delete(0, 'end')
 
 
@@ -153,11 +183,12 @@ def func(event):
         for value, count in outCounter:
             stored = value, "-", count
             counterOutLabel = Label(root, text=stored,width=15)
-            counterOutLabel.grid(column=9, columnspan=1, row=startRow, sticky=W)
+            counterOutLabel.grid(column=9, columnspan=1, row=startRow, sticky=NSEW)
             startRow = startRow + 1
-            print(stored)
 
-        print(outCounter)
+            if scanIn == scanOut:
+                counterOutLabel.config(fg="green")
+                furgonLabel.config(fg="green")
 
 
         entry1.delete(0, 'end')
@@ -175,6 +206,8 @@ def func(event):
 
    # totalInLabel = Label(root, text=inCounter)
   #  totalInLabel.grid(row= 3, column = 8)
+
+
 
 entradaMode()
 root.bind('<Return>', func)
