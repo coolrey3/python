@@ -5,10 +5,12 @@ from tkinter import *
 from tkinter import filedialog
 from collections import Counter
 import datetime
+import xlrd
 import xlwt
 
 #current time & date
 now = datetime.datetime.now()
+print (now.strftime("%m-%d-%Y"))
 
 #tkinter window
 root = Tk()
@@ -58,6 +60,7 @@ quitButton = Button(root,text="Quit", command = root.quit )
 #Define Variables and Arrays
 scanIn = []
 scanOut = []
+startRowSave = 1
 startRow = 3
 inCount=0
 outCount=0
@@ -125,28 +128,48 @@ def salidaMode():
     furgon.grid(row=0, column=9, columnspan=1,sticky=E)
     #
 
-def save2Excel():
-    style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
+class savetoexcel:
+
+    def save2Excel():
+
+        style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
                          num_format_str='#,##0.00')
-    style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
+        style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
 
-    wb = xlwt.Workbook()
-    ws = wb.add_sheet('A Test Sheet', cell_overwrite_ok=True)
-    wsLog = wb.add_sheet('Scan Log', cell_overwrite_ok=True)
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('A Test Sheet', cell_overwrite_ok=True)
+        wsLog = wb.add_sheet('Scan Log', cell_overwrite_ok=True)
 
-    ws.write(0, 0, "Total In", style0)
-    ws.write(1, 0, str(storedIn) , style1)
-    ws.write(2, 0, 1)
-    ws.write(0, 1, "Total Out", style0)
-    ws.write(1, 1, str(storedOut))
-    ws.write(0, 2, "Furgon", style0)
-    ws.write(1, 2, furgonNumber, style1)
-    ws.write(2, 2, xlwt.Formula("A3+B3"))
-    wsLog.write(0, 0, "Scan Log", style0)
-    wsLog.write(1, 0, timestamp, style1)
+        ws.write(0, 0, "Total In", style0)
+        ws.write(1, 0, str(storedIn) , style1)
+        ws.write(2, 0, )
+        ws.write(0, 1, "Total Out", style0)
+        ws.write(1, 1, str(storedOut))
+        ws.write(0, 2, "Furgon", style0)
+        ws.write(1, 2, furgonNumber, style1)
+        ws.write(2, 2, xlwt.Formula("A3+B3"))
+        wsLog.write(0, 0, "Scan Log", style0)
+        wsLog.write(1, 0, timestamp, style1)
+        print (content)
 
 
-    wb.save('example.xls')
+        wb.save('Z:/Reciving Almacen/Entradas y Salidas/example.xls')
+
+    def saveScan(startRowIn, timestamp):
+
+
+        style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
+                         num_format_str='#,##0.00')
+        style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
+
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('A Test Sheet', cell_overwrite_ok=False)
+        wsLog = wb.add_sheet('Scan Log', cell_overwrite_ok=False)
+        wsLog.write(0, 0, "Scan Log", style0)
+
+        wsLog.write(startRowIn, 0, timestamp, style1)
+        print("printed from savescan")
+        wb.save('Z:/Reciving Almacen/Entradas y Salidas/' + now.strftime("%m-%d-%Y") + '.xls')
 
 
 
@@ -154,13 +177,14 @@ subMenu.add_command(label="Entrada", command=entradaMode)
 subMenu.add_command(label="Salida", command=salidaMode)
 
 fileMenu.add_command(label="Save As",command = file_save)
-fileMenu.add_command(label="Save to Excel",command = save2Excel)
+fileMenu.add_command(label="Save to Excel",command = savetoexcel.save2Excel)
 
 fileMenu.add_command(label="Exit", command=root.quit)
 
 
 mode = ""
-timestamp = "Package " + " Scanned at " + now.strftime("%m-%d-%Y %H:%M")
+content = entry1.get()
+timestamp = "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M")
 
 subMenu.add_separator()
 
@@ -181,6 +205,7 @@ def func(event):
     elif mode == "Entrada":
         timestamp = "Package " + content + " Scanned at " + now.strftime("%m-%d-%Y %H:%M")
         print( timestamp)
+
         scanIn.append(content)
 
         startRowIn = 2
@@ -203,7 +228,9 @@ def func(event):
             counterLabel = Label(root, text = storedIn)
             counterLabel.grid(column=2,columnspan = 1,row = startRow, sticky = NSEW)
             startRow = startRow + 1
+
             print(storedIn)
+            savetoexcel.saveScan(startRowSave,timestamp)
 
         entry1.delete(0, 'end')
 
