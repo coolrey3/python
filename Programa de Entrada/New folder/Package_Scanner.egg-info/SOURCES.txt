@@ -1,0 +1,9 @@
+Package Scanner.py
+icon.ico
+setup.py
+tcl86t.dll
+tk86t.dll
+Package_Scanner.egg-info/PKG-INFO
+Package_Scanner.egg-info/SOURCES.txt
+Package_Scanner.egg-info/dependency_links.txt
+Package_Scanner.egg-info/top_level.txt

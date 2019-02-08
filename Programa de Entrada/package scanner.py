@@ -8,6 +8,7 @@ import datetime
 import xlrd
 import xlwt
 
+
 #current time & date
 now = datetime.datetime.now()
 print (now.strftime("%m-%d-%Y"))
@@ -82,11 +83,9 @@ menu.add_cascade(label="Scan Mode", menu=subMenu)
 
 #start file save
 def file_save():
-    f = filedialog.asksaveasfile(mode='w', defaultextension=".xls",initialdir = "%userprofile%/desktop/",title = "Save file",filetypes = (("Excel file","*.xls"),("Text file","*.txt"),("all files","*.*")))
+    f = filedialog.asksaveasfile(mode='w', defaultextension=".txt",initialdir = "%userprofile%/desktop/",title = "Save file",filetypes = (("Text file","*.txt"),("Excel file","*.xls"),("all files","*.*")))
     if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
         return
-    text2saveIn = str(inCounter)
-    text2saveOut = str(outCounter)
     text2saveFurgon = str(furgon.get())
     f.write("Furgon")
     f.write("\n")
@@ -94,12 +93,19 @@ def file_save():
     f.write("\n")
     f.write("\n")
     f.write("Total In")
+    #end check if list empty
+
     f.write("\n")
+    #check if list is empty
+    #if item in storedIn:
+    text2saveIn = str(inCounter)
     f.write(text2saveIn)
     f.write("\n")
     f.write("\n")
     f.write("Total Out")
     f.write("\n")
+    #if item in storedOut:
+    text2saveOut = str(outCounter)
     f.write(text2saveOut)
     f.write("\n")
     #f.write("Scan Details")
@@ -184,7 +190,7 @@ subMenu.add_command(label="Entrada", command=entradaMode)
 subMenu.add_command(label="Salida", command=salidaMode)
 
 fileMenu.add_command(label="Save As",command = file_save)
-fileMenu.add_command(label="Save to Excel",command = savetoexcel.save2Excel)
+#fileMenu.add_command(label="Save to Excel",command = savetoexcel.save2Excel)
 
 fileMenu.add_command(label="Exit", command=root.quit)
 
